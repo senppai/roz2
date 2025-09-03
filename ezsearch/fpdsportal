@@ -1,0 +1,1285 @@
+
+
+
+
+
+
+
+
+
+
+	<html><head><title>FPDS-NG ezSearch</title>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+<!--
+function setCookie(name, value, days) {
+  if (!days) days = 100;
+  var expire = new Date();
+  expire.setTime(expire.getTime() + 3600000*24*days);
+  document.cookie = name + "=" + escape(value) + "; expires=" + expire.toGMTString();
+}
+function getCookie(name) {
+  var dc = document.cookie;
+  var prefix = name + "=";
+  var begin = dc.indexOf("; " + prefix);
+  if (begin == -1) {
+    begin = dc.indexOf(prefix);
+    if (begin != 0) return null;
+  } else {
+    begin += 2;
+  }
+  var end = dc.indexOf(";", begin);
+  if (end == -1) end = dc.length;
+  return unescape(dc.substring(begin + prefix.length, end));
+}
+function delCookie(name) {
+  if (getCookie(name)) document.cookie = name + "=" + "; expires=Fri, 31-Dec-99 23:59:59 GMT";
+}
+//-->
+</script>
+<style type="text/css" media=all>
+<!--
+body{margin:4px 6px 4px 6px;background-color:transparent;background-image: url('/ezsearch/images/04gray_gray.gif')  }
+body,th,td,div,.p,a{font-family:arial,sans-serif;font-size:90%}
+
+.tableheader{background-color:'#ADDFFF'  }
+
+table.box{width:100%;border:2px solid #0558a5;border-collapse:collapse;float:top}
+table.box th{text-align:left;font-weight:bold;;background:#d2e4fc;border-bottom:1px solid #d2e4fc}
+table.resultbox{width:100%;border:1px solid #0558a5;border-collapse:collapse;float:top;cellpadding:2;cellspacing:2}
+table.resultbox1{width:100%;border:1px solid gray;border-collapse:collapse;float:top;background-color:#DDDDDD;cellpadding:2;cellspacing:2 }
+table.resultbox2{width:100%;border:1px solid gray;border-collapse:collapse;float:top;cellpadding:2;cellspacing:2 }
+
+.search_heading {
+    font-size: 10pt;
+    font-family: Arial;
+    color: black;
+}
+.results_title_text {
+    font-weight: bold;
+    font-size: 8pt;
+    font-family: Arial;
+    color: black;
+    text-align: left;
+}
+.results_text {
+    font-size: 8pt;
+    font-family: Arial;
+    color: black;
+    text-align: left;
+}
+
+.warning_text {
+    font-weight: bold;
+    font-size: 10pt;
+    font-family: Arial;
+    color: black;
+    text-align: left;
+}
+
+.box_heading {
+    font-size: 10pt;
+    font-family: Arial;
+    color: white;
+    text-align: left;
+}
+.results_heading {
+    font-size: 10pt;
+    font-family: Arial;
+    color: white;
+    text-align: left;
+}
+
+.help_text{
+    font-size: 7.5pt;
+    font-family: Arial;
+    color: black;
+    text-align: left;
+}
+
+.link_text {
+    font-size: 9pt;
+    font-family: Arial;
+    text-align: left;
+}
+
+.sorted_link_text {
+    font-size: 11pt;
+    font-family: Arial;
+    font-color: blue;
+    color: black;
+    font-style: italic;
+    text-align: left;
+    font-weight: bold;
+}
+//-->
+</style>
+
+<script type="text/javascript" language="javascript" id="_fed_an_ua_tag" src="/ezsearch/jscript/Universal-Federated-Analytics.1.0.js?agency=GSA"></script>
+
+</head>
+<body    link="#0000ff" vlink="#0000ff" onLoad="pingFPDSInstance()">
+<img id ='pingImage' alt ="Ping Gif" title ="Ping Gif" style="display:none"></img>
+
+<script type="text/javascript" language="JavaScript">
+function ClearSearchText()
+{
+	document.getElementById("searchText").value = "";
+}
+
+function submitIt()
+{
+	document.search_awardfull.submit()
+}
+
+</script>
+
+
+<form name="search_awardfull" method="get" action="/ezsearch/fpdsportal">
+<br/>
+<table align=center>
+<tr>
+<td colspan=4 align="left">
+<span class="search_heading">Type one or more keywords you would like to search on:</span>
+</td>
+</tr>
+<tr>
+	<td valign=top>
+		<input type="hidden" name="indexName" value="awardfull">
+		<input type="hidden" name="templateName" value="1.5.3">
+		<input type="hidden" name="s" value="">
+				<input type="text" id = "searchText" name="q" size="80" maxlength="2048" title= "Type one or more keywords you would like to search on" alt= "Type one or more keywords you would like to search on"  value="">&nbsp;
+	</td>
+	<td>
+         <input type="image" src="/ezsearch/images/mb_go_stat_24.gif" value = "Go" title= "Go" alt="Go" accessKey="G" onclick="gas('send', 'event', 'EzSearch Queries', 'click', 'EzSearch regular query', 0);javascript:submitIt();">
+
+	</td>
+	<td>
+		<input type="image" src="/ezsearch/images/s_clear2_stat_80.gif" onclick="javascript:ClearSearchText();return false" value=" Clear " title="Clear" Alt="Clear" accessKey="l">
+	</td>
+	<td>
+	      <input type="image" src="/ezsearch/images/s_advsrchcrt_stat_123.gif" onclick='toggleLayer("advancedSearchdiv");return false' value=" Advanced Search Criteria" title="Advanced Search Criteria" alt="Advanced Search Criteria" accessKey="d">
+	</td>
+</tr>
+
+</table>
+</form>
+  <SCRIPT type="text/javascript" SRC="/ezsearch/jscript/Calendar.js"></SCRIPT>
+
+<script type="text/javascript">
+	
+var cal = new CalendarPopup();
+cal.showYearNavigation();
+cal.showNavigationDropdowns();
+
+function toggleLayer( whichLayer )
+{
+  var elem, vis;
+  if( document.getElementById ) // this is the way the standards work
+    elem = document.getElementById( whichLayer );
+  else if( document.all ) // this is the way old msie versions work
+      elem = document.all[whichLayer];
+  else if( document.layers ) // this is the way nn4 works
+    elem = document.layers[whichLayer];
+  vis = elem.style;
+  // if the style.display value is blank we try to figure it out here
+  if(vis.display==''&&elem.offsetWidth!=undefined&&elem.offsetHeight!=undefined)
+    vis.display = (elem.offsetWidth!=0&&elem.offsetHeight!=0)?'block':'none';
+  vis.display = (vis.display==''||vis.display=='block')?'none':'block';
+}
+
+function showlayer(whichLayer,oid,selectedElementName)
+{
+  var elem, vis;  
+  elem = document.getElementById( whichLayer );  
+  if((selectedElementName != undefined) && isListColumn(selectedElementName))
+  {   	
+    	addDynamicDIV(elem,oid,selectedElementName.substring(0,3))
+    	vis = elem.style;
+    	vis.display = 'block';
+  }
+  else
+  {
+    	vis = elem.style;
+    	vis.display = 'block';
+  }
+}
+
+function hidelayer(whichLayer)
+{
+  var elem, vis;
+  elem = document.getElementById( whichLayer );
+  vis = elem.style;
+  vis.display = 'none';
+}
+
+function clear()
+{
+	var numi = document.getElementById('theValue')
+	numi.value = 0
+}
+
+  
+
+function getColumnType(name)
+{
+	var colTypes = new Array()
+			colTypes["CURRENT_CONTRACT_VALUE"] = "Number"
+			colTypes["ULTIMATE_UEI_NAME"] = "Text"
+			colTypes["NGC_PARTICIPATION_DESC"] = "Text"
+			colTypes["PRODUCT_OR_SERVICE_CODE"] = "String"
+			colTypes["LEGISLATIVE_MANDATES"] = "Text"
+			colTypes["VENDOR_UEI"] = "Text"
+			colTypes["DEPARTMENT_ID"] = "Text"
+			colTypes["TYPE_OF_SET_ASIDE_DESCRIPTION"] = "Text"
+			colTypes["SOLICITATION_PROC_DESCRIPTION"] = "Text"
+			colTypes["FUNDING_OFFICE_NAME"] = "Text"
+			colTypes["AWARD_STATUS"] = "String"
+			colTypes["OBLIGATED_AMOUNT"] = "Number"
+			colTypes["REASON_NOT_COMP_DESCRIPTION"] = "Text"
+			colTypes["MULTIYEAR_CONTRACT"] = "String"
+			colTypes["DESCRIPTION_OF_REQUIREMENT"] = "Text"
+			colTypes["LAST_MODIFIED_BY"] = "Text"
+			colTypes["SUB_ACCOUNT_CODE"] = "Text"
+			colTypes["COMMERCIAL_ITEM_ACQUISTN_DESC"] = "Text"
+			colTypes["INHERENTLY_GOVERNMENTAL_DESC"] = "Text"
+			colTypes["NON_GOVERNMENT_VALUE"] = "Number"
+			colTypes["EVALUATED_PREF_DESCRIPTION"] = "Text"
+			colTypes["NAICS_DESCRIPTION"] = "Text"
+			colTypes["REF_IDV_AGENCY_ID"] = "String"
+			colTypes["TYPE_OF_CONTRACT_PRICING"] = "String"
+			colTypes["ADDITIONAL_REPORTING"] = "Text"
+			colTypes["MAIN_ACCOUNT_CODE"] = "Text"
+			colTypes["LOCAL_AREA_SET_ASIDE"] = "String"
+			colTypes["AGENCY_NAME"] = "Text"
+			colTypes["EXTENT_COMPETED_DESCRIPTION"] = "Text"
+			colTypes["UEI_NAME"] = "Text"
+			colTypes["TOTAL_DOLLARS_OBLIGATED"] = "Number"
+			colTypes["NUMBER_OF_OFFERS_RECEIVED"] = "Number"
+			colTypes["SOCIO_ECONOMIC_INDICATORS"] = "Text"
+			colTypes["CONTRACT_TYPE"] = "String"
+			colTypes["VENDOR_ADDRESS_STATE_NAME"] = "Text"
+			colTypes["PRODUCT_OR_SERVICE_DESCRIPTION"] = "Text"
+			colTypes["AWARD_TYPE"] = "Text"
+			colTypes["POP_CONGRESS_DISTRICT_CODE"] = "String"
+			colTypes["REF_IDV_PIID"] = "Text"
+			colTypes["PRODUCT_OR_SERVICE_TYPE"] = "Text"
+			colTypes["SOLICITATION_ID"] = "Text"
+			colTypes["ULTIMATE_CONTRACT_VALUE"] = "Number"
+			colTypes["PRINCIPAL_NAICS_CODE"] = "String"
+			colTypes["CONTRACT_FISCAL_YEAR"] = "String"
+			colTypes["NATIONAL_INTEREST_CODE"] = "Text"
+			colTypes["TOTAL_ULTIMATE_CONTRACT_VALUE"] = "Number"
+			colTypes["REASON_FOR_MODIFICATION"] = "Text"
+			colTypes["SIGNED_DATE"] = "Date"
+			colTypes["PIID"] = "Text"
+			colTypes["SPENDING_CATEGORY"] = "Text"
+			colTypes["FAIR_OPPORTUNITY_DESCRIPTION"] = "Text"
+			colTypes["SBC_DEMONSTRATION_PROGRAM_DESC"] = "Text"
+			colTypes["BASE_EXERCISED_OPTIONS_VALUE"] = "Number"
+			colTypes["SOURCE_SELECTION_PROCESS_DESC"] = "String"
+			colTypes["FUNDING_AGENCY_ID"] = "Text"
+			colTypes["VENDOR_ADDRESS_STATE_CODE"] = "String"
+			colTypes["AGENCY_CODE"] = "String"
+			colTypes["ESTIMATED_COMPLETION_DATE"] = "Date"
+			colTypes["ULTIMATE_UEI"] = "String"
+			colTypes["FISCAL_YEAR"] = "Text"
+			colTypes["EFFECTIVE_DATE"] = "Date"
+			colTypes["FUNDING_OFFICE_ID"] = "Text"
+			colTypes["VENDOR_ADDRESS_COUNTRY_CODE"] = "String"
+			colTypes["VENDOR_ADDRESS_ZIP_CODE"] = "String"
+			colTypes["VENDOR_ADDRESS_COUNTRY_NAME"] = "Text"
+			colTypes["POP_STATE_NAME"] = "String"
+			colTypes["POP_COUNTRY_NAME"] = "String"
+			colTypes["TOTAL_NON_GOVERNMENT_VALUE"] = "Number"
+			colTypes["VERSION"] = "Text"
+			colTypes["VENDOR_CONGRESS_DISTRICT_CODE"] = "String"
+			colTypes["FED_BIZ_OPPS_DESC"] = "Text"
+			colTypes["CONTRACTING_AGENCY_NAME"] = "String"
+			colTypes["CREATED_DATE"] = "Date"
+			colTypes["VENDOR_ADDRESS_CITY"] = "Text"
+			colTypes["AGENCY_IDENTIFIER"] = "Text"
+			colTypes["TREASURY_ACCOUNT_SYMBOL"] = "String"
+			colTypes["VENDOR_DOING_BUSINESS_AS_NAME"] = "Text"
+			colTypes["AWARD_COMPLETION_DATE"] = "Date"
+			colTypes["CAGE_CODE"] = "Text"
+			colTypes["TOTAL_CURRENT_CONTRACT_VALUE"] = "Number"
+			colTypes["CREATED_BY"] = "Text"
+			colTypes["LAST_MOD_DATE"] = "Date"
+			colTypes["CONTRACT_PRICING_DESCRIPTION"] = "Text"
+			colTypes["A76_DESC"] = "Text"
+			colTypes["ADDITIONAL_REPORTING_DESC"] = "Text"
+			colTypes["RESEARCH_DESCRIPTION"] = "Text"
+			colTypes["DEPARTMENT_NAME"] = "Text"
+			colTypes["CITP_DESC"] = "Text"
+			colTypes["CONTRACTING_OFFICE_NAME"] = "Text"
+			colTypes["INHERENTLY_GOVERNMENTAL_CODE"] = "Text"
+			colTypes["NATIONAL_INTEREST_DESCRIPTION"] = "Text"
+			colTypes["CONTRACTING_AGENCY_ID"] = "String"
+			colTypes["CONTRACTING_OFFICE_ID"] = "Text"
+			colTypes["MODIFICATION_NUMBER"] = "String"
+		return colTypes[name]
+}
+function hidedefault(oid)
+{
+	hidelayer( oid + "SPE" )
+}
+
+function changerange(oid,num)
+{
+	var optionb =document.getElementById(oid + "Option");	
+	var sel = getColumnType(optionb.options[optionb.selectedIndex].value)
+	
+        hidedefault(oid)
+            
+	if(isRangeColumn(sel) == 'Y')
+	{
+		showlayer( oid + "Box2" )
+		hidelayer( oid + "Box1" )
+		
+	}
+	else
+	{
+		showlayer( oid + "Box1" )
+		hidelayer( oid + "Box2" )
+		
+	}
+	if(isDateColumn(sel) == 'Y')
+	{
+		showlayer( oid + "Date1" )
+		showlayer( oid + "Date2" )
+	}
+	else
+	{
+		hidelayer( oid + "Date1" )
+		hidelayer( oid + "Date2" )
+	}
+	if(isListColumn(optionb.options[optionb.selectedIndex].value) == 'Y')
+	{
+	   hidelayer( oid + "Box2" )
+	   hidelayer( oid + "Box1" )
+	   hidelayer( oid + "Date1" )
+	   hidelayer( oid + "Date2" )
+	   showlayer( oid + (optionb.options[optionb.selectedIndex].value).substring(0,3),oid,optionb.options[optionb.selectedIndex].value)	  
+	}
+}
+
+
+
+function isRangeColumn(name)
+{	
+	if(name.indexOf("Date") != -1)
+		return 'Y'
+	else if(name.indexOf("Number") != -1)
+		return 'Y'
+	else
+		return 'N'
+}
+
+function isDateColumn(name)
+{	
+	if(name.indexOf("Date") != -1)
+		return 'Y'
+	else
+		return 'N'
+}
+
+function isListColumn(name)
+{
+	for(var i=0;i<divElementName.length; i++)
+	{
+		if(name == divElementName[i])
+			return 'Y'	
+	}
+	return 'N'
+}
+
+function addElement() {
+  var ni = document.getElementById('myDiv');
+  var numi = document.getElementById('theValue');
+  var num = (document.getElementById('theValue').value -2)+ 2
+  numi.value = num +1
+  var newdiv = document.createElement('div')
+  var divIdName = 'my'+num+'Div';
+  newdiv.setAttribute('id',divIdName);
+  var columns1 = new Array();
+  var columns2 = new Array();
+                     columns1[0] = "Current Contract Value";
+       columns2["Current Contract Value"] = "CURRENT_CONTRACT_VALUE";
+                     columns1[1] = "Ultimate Parent Legal Business Name";
+       columns2["Ultimate Parent Legal Business Name"] = "ULTIMATE_UEI_NAME";
+                     columns1[2] = "Nontraditional Government Contractor Participation";
+       columns2["Nontraditional Government Contractor Participation"] = "NGC_PARTICIPATION_DESC";
+                     columns1[3] = "PSC";
+       columns2["PSC"] = "PRODUCT_OR_SERVICE_CODE";
+                     columns1[4] = "Legislative Mandates";
+       columns2["Legislative Mandates"] = "LEGISLATIVE_MANDATES";
+                     columns1[5] = "Unique Entity ID";
+       columns2["Unique Entity ID"] = "VENDOR_UEI";
+                     columns1[6] = "Department ID";
+       columns2["Department ID"] = "DEPARTMENT_ID";
+                     columns1[7] = "Type of Set Aside";
+       columns2["Type of Set Aside"] = "TYPE_OF_SET_ASIDE_DESCRIPTION";
+                     columns1[8] = "Solicitation Procedures";
+       columns2["Solicitation Procedures"] = "SOLICITATION_PROC_DESCRIPTION";
+                     columns1[9] = "Funding Office Name";
+       columns2["Funding Office Name"] = "FUNDING_OFFICE_NAME";
+                     columns1[10] = "Award Status";
+       columns2["Award Status"] = "AWARD_STATUS";
+                     columns1[11] = "Action Obligation ($)";
+       columns2["Action Obligation ($)"] = "OBLIGATED_AMOUNT";
+                     columns1[12] = "Other Than Full And Open Competition";
+       columns2["Other Than Full And Open Competition"] = "REASON_NOT_COMP_DESCRIPTION";
+                     columns1[13] = "Multiyear Contract";
+       columns2["Multiyear Contract"] = "MULTIYEAR_CONTRACT";
+                     columns1[14] = "Description of Requirement";
+       columns2["Description of Requirement"] = "DESCRIPTION_OF_REQUIREMENT";
+                     columns1[15] = "Last Modified By";
+       columns2["Last Modified By"] = "LAST_MODIFIED_BY";
+                     columns1[16] = "Treasury Account Symbol Sub Account Code";
+       columns2["Treasury Account Symbol Sub Account Code"] = "SUB_ACCOUNT_CODE";
+                     columns1[17] = "Commercial Products and Services Acquisition Procedures";
+       columns2["Commercial Products and Services Acquisition Procedures"] = "COMMERCIAL_ITEM_ACQUISTN_DESC";
+                     columns1[18] = "Inherently Governmental Description";
+       columns2["Inherently Governmental Description"] = "INHERENTLY_GOVERNMENTAL_DESC";
+                     columns1[19] = "Non-Government Dollars";
+       columns2["Non-Government Dollars"] = "NON_GOVERNMENT_VALUE";
+                     columns1[20] = "Evaluated Preference";
+       columns2["Evaluated Preference"] = "EVALUATED_PREF_DESCRIPTION";
+                     columns1[21] = "NAICS Description";
+       columns2["NAICS Description"] = "NAICS_DESCRIPTION";
+                     columns1[22] = "Reference IDV Agency ID";
+       columns2["Reference IDV Agency ID"] = "REF_IDV_AGENCY_ID";
+                     columns1[23] = "Type of Contract Pricing";
+       columns2["Type of Contract Pricing"] = "TYPE_OF_CONTRACT_PRICING";
+                     columns1[24] = "Additional Reporting Code";
+       columns2["Additional Reporting Code"] = "ADDITIONAL_REPORTING";
+                     columns1[25] = "Treasury Account Symbol Main Account Code";
+       columns2["Treasury Account Symbol Main Account Code"] = "MAIN_ACCOUNT_CODE";
+                     columns1[26] = "Local Area Set Aside";
+       columns2["Local Area Set Aside"] = "LOCAL_AREA_SET_ASIDE";
+                     columns1[27] = "Agency Name";
+       columns2["Agency Name"] = "AGENCY_NAME";
+                     columns1[28] = "Extent Competed";
+       columns2["Extent Competed"] = "EXTENT_COMPETED_DESCRIPTION";
+                     columns1[29] = "Legal Business Name";
+       columns2["Legal Business Name"] = "UEI_NAME";
+                     columns1[30] = "Total Dollars Obligated ($)";
+       columns2["Total Dollars Obligated ($)"] = "TOTAL_DOLLARS_OBLIGATED";
+                     columns1[31] = "Number of Offers Received";
+       columns2["Number of Offers Received"] = "NUMBER_OF_OFFERS_RECEIVED";
+                     columns1[32] = "Socio Economic Indicators";
+       columns2["Socio Economic Indicators"] = "SOCIO_ECONOMIC_INDICATORS";
+                     columns1[33] = "Contract Type";
+       columns2["Contract Type"] = "CONTRACT_TYPE";
+                     columns1[34] = "Entity State Name";
+       columns2["Entity State Name"] = "VENDOR_ADDRESS_STATE_NAME";
+                     columns1[35] = "PSC Description";
+       columns2["PSC Description"] = "PRODUCT_OR_SERVICE_DESCRIPTION";
+                     columns1[36] = "Award/IDV Type";
+       columns2["Award/IDV Type"] = "AWARD_TYPE";
+                     columns1[37] = "PoP Congressional District Code";
+       columns2["PoP Congressional District Code"] = "POP_CONGRESS_DISTRICT_CODE";
+                     columns1[38] = "Reference IDV";
+       columns2["Reference IDV"] = "REF_IDV_PIID";
+                     columns1[39] = "PSC Type";
+       columns2["PSC Type"] = "PRODUCT_OR_SERVICE_TYPE";
+                     columns1[40] = "Solicitation ID";
+       columns2["Solicitation ID"] = "SOLICITATION_ID";
+                     columns1[41] = "Ultimate Contract Value";
+       columns2["Ultimate Contract Value"] = "ULTIMATE_CONTRACT_VALUE";
+                     columns1[42] = "NAICS";
+       columns2["NAICS"] = "PRINCIPAL_NAICS_CODE";
+                     columns1[43] = "Contract Fiscal Year";
+       columns2["Contract Fiscal Year"] = "CONTRACT_FISCAL_YEAR";
+                     columns1[44] = "National Interest Code";
+       columns2["National Interest Code"] = "NATIONAL_INTEREST_CODE";
+                     columns1[45] = "Total Base and Exercised Options Value ($)";
+       columns2["Total Base and Exercised Options Value ($)"] = "TOTAL_ULTIMATE_CONTRACT_VALUE";
+                     columns1[46] = "Reason for Modification";
+       columns2["Reason for Modification"] = "REASON_FOR_MODIFICATION";
+                     columns1[47] = "Date Signed";
+       columns2["Date Signed"] = "SIGNED_DATE";
+                     columns1[48] = "Contract ID";
+       columns2["Contract ID"] = "PIID";
+                     columns1[49] = "Initiative";
+       columns2["Initiative"] = "SPENDING_CATEGORY";
+                     columns1[50] = "Fair Opportunity";
+       columns2["Fair Opportunity"] = "FAIR_OPPORTUNITY_DESCRIPTION";
+                     columns1[51] = "Small Business Competitiveness Demonstration Program";
+       columns2["Small Business Competitiveness Demonstration Program"] = "SBC_DEMONSTRATION_PROGRAM_DESC";
+                     columns1[52] = "Base and Exercised Options Value";
+       columns2["Base and Exercised Options Value"] = "BASE_EXERCISED_OPTIONS_VALUE";
+                     columns1[53] = "Source Selection Process Description";
+       columns2["Source Selection Process Description"] = "SOURCE_SELECTION_PROCESS_DESC";
+                     columns1[54] = "Funding Agency ID";
+       columns2["Funding Agency ID"] = "FUNDING_AGENCY_ID";
+                     columns1[55] = "Entity State";
+       columns2["Entity State"] = "VENDOR_ADDRESS_STATE_CODE";
+                     columns1[56] = "Agency Code";
+       columns2["Agency Code"] = "AGENCY_CODE";
+                     columns1[57] = "Estimated Completion Date";
+       columns2["Estimated Completion Date"] = "ESTIMATED_COMPLETION_DATE";
+                     columns1[58] = "Ultimate Parent Unique Entity ID";
+       columns2["Ultimate Parent Unique Entity ID"] = "ULTIMATE_UEI";
+                     columns1[59] = "Other Transaction Fiscal Year";
+       columns2["Other Transaction Fiscal Year"] = "FISCAL_YEAR";
+                     columns1[60] = "Period of Performance Start Date";
+       columns2["Period of Performance Start Date"] = "EFFECTIVE_DATE";
+                     columns1[61] = "Funding Office ID";
+       columns2["Funding Office ID"] = "FUNDING_OFFICE_ID";
+                     columns1[62] = "Entity Country Code";
+       columns2["Entity Country Code"] = "VENDOR_ADDRESS_COUNTRY_CODE";
+                     columns1[63] = "Entity ZIP Code";
+       columns2["Entity ZIP Code"] = "VENDOR_ADDRESS_ZIP_CODE";
+                     columns1[64] = "Entity Country Name";
+       columns2["Entity Country Name"] = "VENDOR_ADDRESS_COUNTRY_NAME";
+                     columns1[65] = "PoP State Name";
+       columns2["PoP State Name"] = "POP_STATE_NAME";
+                     columns1[66] = "PoP Country Name";
+       columns2["PoP Country Name"] = "POP_COUNTRY_NAME";
+                     columns1[67] = "Total Non Government Value ($)";
+       columns2["Total Non Government Value ($)"] = "TOTAL_NON_GOVERNMENT_VALUE";
+                     columns1[68] = "Version";
+       columns2["Version"] = "VERSION";
+                     columns1[69] = "Entity Congressional District Code";
+       columns2["Entity Congressional District Code"] = "VENDOR_CONGRESS_DISTRICT_CODE";
+                     columns1[70] = "Contract Opportunities Notice";
+       columns2["Contract Opportunities Notice"] = "FED_BIZ_OPPS_DESC";
+                     columns1[71] = "Contracting Agency Name";
+       columns2["Contracting Agency Name"] = "CONTRACTING_AGENCY_NAME";
+                     columns1[72] = "Created Date";
+       columns2["Created Date"] = "CREATED_DATE";
+                     columns1[73] = "Entity City";
+       columns2["Entity City"] = "VENDOR_ADDRESS_CITY";
+                     columns1[74] = "Treasury Account Symbol Agency Identifier";
+       columns2["Treasury Account Symbol Agency Identifier"] = "AGENCY_IDENTIFIER";
+                     columns1[75] = "Treasury Account Symbol";
+       columns2["Treasury Account Symbol"] = "TREASURY_ACCOUNT_SYMBOL";
+                     columns1[76] = "Entity Doing Business as Name";
+       columns2["Entity Doing Business as Name"] = "VENDOR_DOING_BUSINESS_AS_NAME";
+                     columns1[77] = "Award Completion Date";
+       columns2["Award Completion Date"] = "AWARD_COMPLETION_DATE";
+                     columns1[78] = "CAGE Code";
+       columns2["CAGE Code"] = "CAGE_CODE";
+                     columns1[79] = "Total Base and All Options Value ($)";
+       columns2["Total Base and All Options Value ($)"] = "TOTAL_CURRENT_CONTRACT_VALUE";
+                     columns1[80] = "Created By";
+       columns2["Created By"] = "CREATED_BY";
+                     columns1[81] = "Last Modified Date";
+       columns2["Last Modified Date"] = "LAST_MOD_DATE";
+                     columns1[82] = "Contract Pricing Description";
+       columns2["Contract Pricing Description"] = "CONTRACT_PRICING_DESCRIPTION";
+                     columns1[83] = "A76";
+       columns2["A76"] = "A76_DESC";
+                     columns1[84] = "Additional Reporting Description";
+       columns2["Additional Reporting Description"] = "ADDITIONAL_REPORTING_DESC";
+                     columns1[85] = "SBIR/STTR";
+       columns2["SBIR/STTR"] = "RESEARCH_DESCRIPTION";
+                     columns1[86] = "Department Name";
+       columns2["Department Name"] = "DEPARTMENT_NAME";
+                     columns1[87] = "Simplified Procedures for Certain Commercial Products and Commercial Services";
+       columns2["Simplified Procedures for Certain Commercial Products and Commercial Services"] = "CITP_DESC";
+                     columns1[88] = "Contracting Office Name";
+       columns2["Contracting Office Name"] = "CONTRACTING_OFFICE_NAME";
+                     columns1[89] = "Inherently Governmental Code";
+       columns2["Inherently Governmental Code"] = "INHERENTLY_GOVERNMENTAL_CODE";
+                     columns1[90] = "National Interest Description";
+       columns2["National Interest Description"] = "NATIONAL_INTEREST_DESCRIPTION";
+                     columns1[91] = "Contracting Agency ID";
+       columns2["Contracting Agency ID"] = "CONTRACTING_AGENCY_ID";
+                     columns1[92] = "Contracting Office ID";
+       columns2["Contracting Office ID"] = "CONTRACTING_OFFICE_ID";
+                     columns1[93] = "Modification Number";
+       columns2["Modification Number"] = "MODIFICATION_NUMBER";
+                columns1.sort();
+
+  var box = '<table width=65% border=0 cellpadding=0 cellspacing=0>'
+     box = box + '<tr> <td><INPUT type = "image" src="/ezsearch/images/cb_x_stat_16.gif" alt="Remove" title="Remove" onclick=\'removeElement("'+divIdName+'");return false;\' > </td>'
+     box = box + '<td align=left>'
+     box = box +  '<select id="' + divIdName + 'Option" NAME="'+divIdName+'Option" class="textinput" onChange=\'javascript:changerange("'+ divIdName + '",'+num+')\' >'
+     box = box + '<option VALUE="SelectColumn"> Select One'     
+     for(var columnName in columns1)
+     {       	
+     box = box +  '<option  VALUE="' + columns2[columns1[columnName]] + '">' + columns1[columnName] +'</option>';
+     }
+
+     box = box +  '</select>'
+     box = box +  '</td>'
+     
+     box = box + '<td>'
+     box = box + '<div style="display:none;width:500; " id="' + divIdName + 'Box1" >'
+     box = box + '<table cellpadding=0 cellspacing=0><tr>'
+     box = box +  ' <td align="center"> &nbsp;'
+     box = box +  ' </td>'
+     box = box +  ' <td align="center"> Like'
+     box = box +  ' </td>'
+
+     box = box +  ' <td align="center"> &nbsp;'
+     box = box +  ' </td>'
+     box = box +  ' <td align="left" valign="middle">'
+     box = box +  ' <input type="text" id="my' + num + 'DivText1" class="textinput" onKeyDown="if(event.keyCode==13)sendtopage(readElements());"/>'
+     box = box +  ' </td>'
+     box = box +  ' <td align="left" valign="middle">'
+  
+     box = box +  ' </td>'
+     box = box + '</tr></table>'
+     box = box + '</div>'     
+     box = box + '</td>'
+   
+     box = box +  ' <td align="left">'
+     box = box + '<div style="display: none" id="' + divIdName + 'Box2">'
+     box = box + '<table cellpadding=0 cellspacing=0><tr>'
+     box = box +  ' <td align="center"> &nbsp;'
+     box = box +  ' </td>'
+     box = box + '<td>From'
+     box = box + '</td>'
+     box = box + '<td>'
+     box = box +  ' <input type="text"  id="my' + num + 'DivText2"/>'
+     box = box + '</td>'
+     box = box + '<td id="' + divIdName + 'Date1" >'
+     box = box + '<img src="/ezsearch/images/calendar.gif" tabindex="0" '
+     box = box + 'onClick="cal.select(document.getElementById(\'my'  + num + 'DivText2\') ,\'anchor1\',\'MM/dd/yyyy\'); return false;" '
+     box = box + 'onKeyDown="if(event.keyCode==13) cal.select(document.getElementById(\'my'  + num + 'DivText2\') ,\'anchor1\',\'MM/dd/yyyy\'); return false;" '
+     box = box + 'NAME="anchor1" ID="anchor1" /img>'
+     box = box + '</td>'     
+     box = box + '<td>To'
+     box = box + '</td>'
+     box = box + '<td>'
+     box = box +  ' <input type="text"  id="my' + num + 'DivText3"/>'
+     box = box + '</td>'
+     box = box + '<td id="' + divIdName + 'Date2" >'
+     box = box + '<img src="/ezsearch/images/calendar.gif" tabindex="0" '
+     box = box + 'onClick="cal.select(document.getElementById(\'my'  + num + 'DivText3\') ,\'anchor2\',\'MM/dd/yyyy\'); return false;" '
+     box = box + 'onKeyDown="if(event.keyCode==13) cal.select(document.getElementById(\'my'  + num + 'DivText2\') ,\'anchor1\',\'MM/dd/yyyy\'); return false;" '
+     box = box + 'NAME="anchor2" ID="anchor2"/img>'
+     box = box + '</td>'     
+     box = box + '</tr></table>'
+     box = box + '</div>'
+    
+     //------------ADDED FOR SPENDING CATEGORY-------------
+     box = box + '<div style="display: none;width:500;" id="' + divIdName + 'SPE">'
+     box = box + '</div>'
+     
+     box = box +  ' </td>'
+     box = box +  '</tr>'
+     box = box +  '<tr>'
+     box = box +  '<td wrap >'
+     box = box +  '</td> '
+     box = box +  '</tr>'
+     box = box + '</table>'
+     
+     newdiv.innerHTML =  box
+  
+     ni.appendChild(newdiv);
+}
+
+function addDynamicDIV(divHandle,oid,funcname)
+{
+	switch(funcname)
+	{
+	 case "SPE":
+		  addSPENDCATiv(divHandle,oid)
+	  break;    
+	}
+}
+
+function addSPENDCATiv(divHandle,oid)
+{
+	var divIdName = oid
+	var box = '<table cellpadding=0 cellspacing=0><tr>'
+	box = box +  ' <td align="center"> &nbsp;'
+        box = box +  ' </td>'
+	box = box +  ' <td align="left" valign="middle">'
+	box = box +  '<select id="' + divIdName + 'SPEOption" NAME="SPENDINGCATEGORY" >'
+	box = box +  '<option value="American Recovery and Reinvestment Act">American Recovery and Reinvestment Act</option>'
+	box = box +  '</select>'
+	box = box + '</td>'	
+	box = box +  ' <td align="center"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+	box = box +  ' </td>'
+	box = box + '</tr></table>'
+	divHandle.innerHTML =  box
+}
+
+function trim(s)
+{
+    var l=0; var r=s.length -1;
+    while(l < s.length && s[l] == ' ')
+    {     l++; }
+    while(r > l && s[r] == ' ')
+    {     r-=1;     }
+    return s.substring(l, r+1);
+} 
+
+function readElements()
+{
+	var srchStr = ""
+	var strIDVType = ""
+	var ni = document.getElementById('myDiv');
+	var numi = document.getElementById('theValue');
+
+	if( ni.hasChildNodes())
+	{
+		var addSpace = 0
+		//alert(ni.childNodes.length)
+		//alert(numi)
+		for(x= 0; x< numi.value; x++)
+		{   	
+			var option = document.getElementById('my' + eval(x) + 'DivOption');
+			var text1  = document.getElementById('my' + eval(x) + 'DivText1');
+			var text2  = document.getElementById('my' + eval(x) + 'DivText2');
+			var text3  = document.getElementById('my' + eval(x) + 'DivText3');
+	    	    	var text4  = document.getElementById('my' + eval(x) + 'DivSPEOption');	    	    	
+			var temp   = document.getElementById('myDiv')
+						
+			if(text2 != null )
+				var tempText2 = trim(text2.value)
+			if(text3 != null )
+				var tempText3 = trim(text3.value)
+			if(text4 == null )
+				text4 = ''
+			
+			if(option != null)
+			{
+				if(text1.value != '' || text2.value != '' ||text3.value != '' || text4.value != '' )
+				{
+					if(isDateColumn(getColumnType(option.value)) == 'Y')
+					{
+						if(tempText2 != '')
+							tempText2 = formatDate(new Date(getDateFromFormat(tempText2 ,'MM/dd/yyyy')),'yyyy/MM/dd')
+						if(tempText3 != '')
+							tempText3 = formatDate(new Date(getDateFromFormat(tempText3 ,'MM/dd/yyyy')),'yyyy/MM/dd')
+					}
+
+					srchStr = srchStr +  ' '
+					if( isRangeColumn(getColumnType(option.value)) == 'Y')
+					{
+						if(tempText2 == '')
+							srchStr = srchStr +  option.value + ':(' + tempText2 + ',' + tempText3  +  ']'
+						else if(tempText3 == '')
+							srchStr = srchStr +  option.value + ':[' + tempText2 + ',' + tempText3  +  ')'
+						else
+							srchStr = srchStr +  option.value + ':[' + tempText2 + ',' + tempText3  +  ']'
+					}
+					else if(option.value == 'VERSION')
+					{
+						srchStr = srchStr +  option.value + ':' + text1.value
+					}					
+					else if(option.value == 'SPENDING_CATEGORY')
+					{
+						srchStr = srchStr +  option.value + ':"' + text4.value + '"'
+					}
+					else
+					{
+						srchStr = srchStr +  option.value + ':"' + text1.value + '"'
+					}				
+				}
+			}
+		}
+	}  
+return escape(srchStr)
+}
+
+function removeElement(divNum) {
+  var d = document.getElementById('myDiv');
+  var olddiv = document.getElementById(divNum);
+  d.removeChild(olddiv);
+}
+
+function appendToParam(url, param, value)
+{
+	start = url.toString().indexOf(param + '=');
+	end = url.toString().indexOf('&', start);
+	if (start == -1){
+		return url;
+	}
+	
+	if (end == -1){
+		end = url.length;
+	}
+	
+	return url.substring(0, end) + ' ' + value +  url.substring(end, url.length)
+	
+}
+
+function replaceParam(url, param, value)
+{
+	start = url.toString().indexOf(param);
+	end = url.toString().indexOf('&', start);
+	if (start == -1){
+		return url;
+	}
+	
+	if (end == -1){
+		end = url.length;
+	}
+	
+	return url.substring(0, start) + param + '=' +  value +  url.substring(end, url.length)
+	
+}
+
+function sendtopage(s)
+{
+
+var url = this.location.href
+if(myform.seacrhType[0].checked){
+
+  	
+	url = appendToParam(url, 'q', s)
+}
+
+if(myform.seacrhType[1].checked)    
+{
+	url = replaceParam(url, 'q', s)
+     
+}
+url = url.replace("search.do","fpdsportal")
+this.location.replace(url)
+}
+
+divElementName =  new Array('SPENDING_CATEGORY');
+
+</script>
+<!--<img src="/ezsearch/images/removeSearch.gif" onclick='toggleLayer("advancedSearchdiv")' /img>-->
+<!--<a href="#" onclick='toggleLayer("advancedSearchdiv")' > Advanced Search</a>-->
+<div id="advancedSearchdiv" style="display: none;">
+<table width="100%">
+	<tr  cellspacing="2" cellpadding="2" align="center">
+	<td width="20%">
+	</td>
+	<td width="60%">
+	<table class="box">
+		  <tr>
+		  	<td bgcolor="#0558a5">
+		      		<span class="box_heading">Advanced Search </span>
+		  	</td>
+		  </tr>
+		  <tr><td>
+			<table>
+                   	  <tr>
+				<td><form name="myform"> 
+				   	       <span class="link_text">
+							<INPUT TYPE=RADIO  NAME="seacrhType" alt="Seacrh Type" title="Seacrh Type" VALUE="W" CHECKED>Search Within Results 
+							<INPUT TYPE=RADIO  NAME="seacrhType" alt="Seacrh Type" title="Seacrh Type" VALUE="N">New Search
+							<input type="hidden" value="0" id="theValue" />
+						</span>
+                                     </form>
+					</td>
+				<td valign="top">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image"  src="/ezsearch/images/s_add_stat_64.gif" title="Add" alt="Add" accessKey="A" value="Add" onclick="addElement();  " /> 
+				</td>
+			</tr>
+			</table>
+			<div id="myDiv"> </div>
+		</td></tr> 
+<tr>
+<td><hr/></td>
+</tr>
+		<tr>				<td align="center">
+					<INPUT  type="image" src="/ezsearch/images/s_search_stat_64.gif" onclick="gas('send', 'event', 'EzSearch Queries', 'click', 'EzSearch advanced query', 0);javascript:sendtopage(readElements());return false;" value="Search" title="Search" alt="Search" accessKey="r">
+					<INPUT type="image" src="/ezsearch/images/ub_cancel_stat.gif" onclick='javascript:toggleLayer("advancedSearchdiv");return false;' value="Cancel" title="Cancel" alt="Cancel" accessKey="C" /img>
+				</td>
+                    </form>
+		</tr>
+	</table>
+	</td>
+	<td width="20%">
+	</td>
+	</tr>
+	
+</table>
+</div >
+</br>
+
+
+<style type="text/css">
+<!--
+.active, .inactive {text-align: center; padding-top:0px; padding-bottom:5px; margin:5px}
+//.active   {background-color: #3366cc; color: white; font-weight:bold;}
+//.inactive {background-color: #efefef; color: blue; }
+.active   {color: black; font-weight:bold;}
+.inactive {text-decoration: underline;}
+//-->
+</style>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+        <td>
+                <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+				<td>
+											<INPUT type ="image" src="images/awardfullover.gif" alt="Contracts" title= "Contracts" onclick="javascript:sendtoindex('fpdsportal?s=$s&templateName=1.5.3&indexName=awardfull&q=');return false;" />
+									</td>
+				<td>			
+											<INPUT type ="image" src="images/icdindexstat.gif" alt="ICD" title= "ICD" onclick="javascript:sendtoindex('fpdsportal?s=$s&templateName=1.5.3&indexName=icdindex&q=');return false;" />
+									</td>
+				<td>
+											<INPUT type ="image" src="images/initiativestat.gif" alt="Recovery" title= "Recovery" onclick="javascript:sendtoindex('fpdsportal?s=$s&templateName=1.5.3&indexName=initiative&q=');return false;" />
+									</td>
+                </tr>
+                </table>
+        </td>        
+                <td align="right"><span >To submit comments, please <a title="Click here to submit comments" alt="title="Click here to submit comments" href="javascript:constructURL('/jsp/feedbackController.jsp?actionSource=easySearch&sourcePage=awardfull&s=$s','$s')">click here</a></span>
+                </td>
+        </tr>
+</table>
+
+<script type="text/javascript" language="JavaScript">
+function getParentURL(d)
+{
+parent.location.replace(parent.location.protocol+'//'+parent.location.host+d);
+}
+
+function sendtoindex(s)
+{
+var url = parent.location.protocol+'//'+parent.location.host
+url =  url + '/ezsearch/' + s;
+this.location.replace(url);
+}
+
+function constructURL(d, applicationSource)
+{
+        if(applicationSource == 'FFATA')
+	d = '/ffata' + d;
+        else if(applicationSource == 'ICD')
+	d = '/contractdirectory' + d;
+        else
+	d = '/common' + d;
+        parent.location.replace(parent.location.protocol+'//'+parent.location.host+d);
+}
+function csvTimeout()
+{
+    var self = this
+    if (this.clicked) return false;
+    
+    greyOutCSV();
+    this.clicked = true;
+    setTimeout(function() {self.clicked = false; colorizeCSV();}, 30000);
+
+    return true;
+
+	function greyOutCSV()
+	{
+		document.getElementById("csvImg").setAttribute("style", "display:none");
+		document.getElementById("greyCSV").setAttribute("style", "");
+	}
+	
+	function colorizeCSV()
+	{
+		document.getElementById("greyCSV").setAttribute("style", "display:none");
+		document.getElementById("csvImg").setAttribute("style", "");
+	}
+}
+function pdfTimeout()
+{
+    var self = this
+    if (this.clicked) return false;
+    
+    greyOutPDF();
+    this.clicked = true;
+    setTimeout(function() {self.clicked = false; colorizePDF();}, 30000);
+
+    return true;
+
+	function greyOutPDF()
+	{
+		document.getElementById("pdfImg").setAttribute("style", "display:none");
+		document.getElementById("greyPDF").setAttribute("style", "");
+	}
+	
+	function colorizePDF()
+	{
+		document.getElementById("greyPDF").setAttribute("style", "display:none");
+		document.getElementById("pdfImg").setAttribute("style", "");
+	}
+}
+</script><table width=100% border=0 cellpadding=0 cellspacing=0>
+<tr><td> </td></tr>
+  <tr>
+    <td bgcolor=#3366cc><img width=1 height=1 alt=""></td>
+  </tr>
+</table>
+ <table width=100% border=0 cellpadding=0 cellspacing=0 background='/ezsearch/images/01bar_light_blue.gif' >
+  <tr  >
+    <td nowrap><font size =2.0 color=#000000></font></td>
+    <td   align=right nowrap><span class="help_text">Search took
+      <b>0</b> seconds </span></td>
+  </tr>
+</table>
+
+
+<table width="100%"  cellpadding="5" cellspacing="0" border="0">
+<tr valign="top">
+<td width="20%">
+</td>
+<td width="60%">
+<table>
+  <tr>
+      	<td>
+    	    	<span class="warning_text">Please provide search criteria and click on Go button.</span>
+      	</td>
+  </tr>
+</table>
+</td>
+<td width="20%">
+
+  <script type="text/javascript">
+var cc = "awardfull"+'recentQueries';
+var cq = "awardfull"+'recentQuery';
+	var columns= new Array(94);
+				columns[0] = "CURRENT_CONTRACT_VALUE";
+					columns[1] = "ULTIMATE_UEI_NAME";
+					columns[2] = "NGC_PARTICIPATION_DESC";
+					columns[3] = "PRODUCT_OR_SERVICE_CODE";
+					columns[4] = "LEGISLATIVE_MANDATES";
+					columns[5] = "VENDOR_UEI";
+					columns[6] = "DEPARTMENT_ID";
+					columns[7] = "TYPE_OF_SET_ASIDE_DESCRIPTION";
+					columns[8] = "SOLICITATION_PROC_DESCRIPTION";
+					columns[9] = "FUNDING_OFFICE_NAME";
+					columns[10] = "AWARD_STATUS";
+					columns[11] = "OBLIGATED_AMOUNT";
+					columns[12] = "REASON_NOT_COMP_DESCRIPTION";
+					columns[13] = "MULTIYEAR_CONTRACT";
+					columns[14] = "DESCRIPTION_OF_REQUIREMENT";
+					columns[15] = "LAST_MODIFIED_BY";
+					columns[16] = "SUB_ACCOUNT_CODE";
+					columns[17] = "COMMERCIAL_ITEM_ACQUISTN_DESC";
+					columns[18] = "INHERENTLY_GOVERNMENTAL_DESC";
+					columns[19] = "NON_GOVERNMENT_VALUE";
+					columns[20] = "EVALUATED_PREF_DESCRIPTION";
+					columns[21] = "NAICS_DESCRIPTION";
+					columns[22] = "REF_IDV_AGENCY_ID";
+					columns[23] = "TYPE_OF_CONTRACT_PRICING";
+					columns[24] = "ADDITIONAL_REPORTING";
+					columns[25] = "MAIN_ACCOUNT_CODE";
+					columns[26] = "LOCAL_AREA_SET_ASIDE";
+					columns[27] = "AGENCY_NAME";
+					columns[28] = "EXTENT_COMPETED_DESCRIPTION";
+					columns[29] = "UEI_NAME";
+					columns[30] = "TOTAL_DOLLARS_OBLIGATED";
+					columns[31] = "NUMBER_OF_OFFERS_RECEIVED";
+					columns[32] = "SOCIO_ECONOMIC_INDICATORS";
+					columns[33] = "CONTRACT_TYPE";
+					columns[34] = "VENDOR_ADDRESS_STATE_NAME";
+					columns[35] = "PRODUCT_OR_SERVICE_DESCRIPTION";
+					columns[36] = "AWARD_TYPE";
+					columns[37] = "POP_CONGRESS_DISTRICT_CODE";
+					columns[38] = "REF_IDV_PIID";
+					columns[39] = "PRODUCT_OR_SERVICE_TYPE";
+					columns[40] = "SOLICITATION_ID";
+					columns[41] = "ULTIMATE_CONTRACT_VALUE";
+					columns[42] = "PRINCIPAL_NAICS_CODE";
+					columns[43] = "CONTRACT_FISCAL_YEAR";
+					columns[44] = "NATIONAL_INTEREST_CODE";
+					columns[45] = "TOTAL_ULTIMATE_CONTRACT_VALUE";
+					columns[46] = "REASON_FOR_MODIFICATION";
+					columns[47] = "SIGNED_DATE";
+					columns[48] = "PIID";
+					columns[49] = "SPENDING_CATEGORY";
+					columns[50] = "FAIR_OPPORTUNITY_DESCRIPTION";
+					columns[51] = "SBC_DEMONSTRATION_PROGRAM_DESC";
+					columns[52] = "BASE_EXERCISED_OPTIONS_VALUE";
+					columns[53] = "SOURCE_SELECTION_PROCESS_DESC";
+					columns[54] = "FUNDING_AGENCY_ID";
+					columns[55] = "VENDOR_ADDRESS_STATE_CODE";
+					columns[56] = "AGENCY_CODE";
+					columns[57] = "ESTIMATED_COMPLETION_DATE";
+					columns[58] = "ULTIMATE_UEI";
+					columns[59] = "FISCAL_YEAR";
+					columns[60] = "EFFECTIVE_DATE";
+					columns[61] = "FUNDING_OFFICE_ID";
+					columns[62] = "VENDOR_ADDRESS_COUNTRY_CODE";
+					columns[63] = "VENDOR_ADDRESS_ZIP_CODE";
+					columns[64] = "VENDOR_ADDRESS_COUNTRY_NAME";
+					columns[65] = "POP_STATE_NAME";
+					columns[66] = "POP_COUNTRY_NAME";
+					columns[67] = "TOTAL_NON_GOVERNMENT_VALUE";
+					columns[68] = "VERSION";
+					columns[69] = "VENDOR_CONGRESS_DISTRICT_CODE";
+					columns[70] = "FED_BIZ_OPPS_DESC";
+					columns[71] = "CONTRACTING_AGENCY_NAME";
+					columns[72] = "CREATED_DATE";
+					columns[73] = "VENDOR_ADDRESS_CITY";
+					columns[74] = "AGENCY_IDENTIFIER";
+					columns[75] = "TREASURY_ACCOUNT_SYMBOL";
+					columns[76] = "VENDOR_DOING_BUSINESS_AS_NAME";
+					columns[77] = "AWARD_COMPLETION_DATE";
+					columns[78] = "CAGE_CODE";
+					columns[79] = "TOTAL_CURRENT_CONTRACT_VALUE";
+					columns[80] = "CREATED_BY";
+					columns[81] = "LAST_MOD_DATE";
+					columns[82] = "CONTRACT_PRICING_DESCRIPTION";
+					columns[83] = "A76_DESC";
+					columns[84] = "ADDITIONAL_REPORTING_DESC";
+					columns[85] = "RESEARCH_DESCRIPTION";
+					columns[86] = "DEPARTMENT_NAME";
+					columns[87] = "CITP_DESC";
+					columns[88] = "CONTRACTING_OFFICE_NAME";
+					columns[89] = "INHERENTLY_GOVERNMENTAL_CODE";
+					columns[90] = "NATIONAL_INTEREST_DESCRIPTION";
+					columns[91] = "CONTRACTING_AGENCY_ID";
+					columns[92] = "CONTRACTING_OFFICE_ID";
+					columns[93] = "MODIFICATION_NUMBER";
+			
+function replaceField(query){
+	var i=0;
+	var q= '';
+	if(query != null)
+	{
+		q = decodeURIComponent(query.replace(/\+/g, ' '));
+		for (i=0; i<columns.length; i++)
+		{
+		    myRE = new RegExp(columns[i]+':', "i")
+			q=q.replace(myRE, '');
+		}
+	}
+	return q;
+}
+function displayRecentQueries() {
+  var count = getCookie(cc);
+  if (count == 0) {
+    delCookie(cc);
+    return;
+  }
+
+  if (count == null) count = 0;
+  var isNew = ("" != "");
+  var query;
+  var i, j;
+  for (i = count-1; i >= 0 && isNew; i--) {
+    query = getCookie(cq+i);
+    if (query == "") {
+      isNew = false;
+      for (j = i; j < count-1; j++) {
+        setCookie(cq+j, getCookie(cq+(j+1)));
+      }
+      if (i < count-1) setCookie(cq+(count-1), query);
+    }
+  }
+  if (isNew) {
+    // limit the number of stored recent queries to 8
+    if (count >= 8) {
+      count = 7;
+      for (j = 0; j < count; j++) {
+        setCookie(cq+j, getCookie(cq+(j+1)));
+      }
+    }
+    setCookie(cq+count, "");
+    setCookie(cc, ++count);
+  }
+  document.write('<tr><td><span class="link_text">');
+  var url = "?s=&indexName=awardfull&templateName=1.5.3&q=";
+  for (i = count-1; i >= 0; i--) {
+    query = getCookie(cq+i);
+    //if (query.length > 30) query = query.substring(0, 30)+'...';
+    document.write('<p class=MsoNormal style="margin-top:0in;margin-right:-5.4pt;margin-left:.25in;margin-bottom:.0001pt;text-indent:-.25in"><span style="font-size:7.0pt;font-family:Wingdings">&Oslash;<span style="font:7.0pt Arial">&nbsp;&nbsp;&nbsp;</span></span><a href="'+url+query+'"title="Click here to search for '+replaceField(query)+'" alt="Click here to search for '+replaceField(query)+'">'+replaceField(query)+'</a><br /></p>');
+  }
+  document.write('</span></td></tr>');
+}
+function clearRecentQueries() {
+  var count = getCookie(cc);
+  setCookie(cc, 0);
+  for (var i = 0; i < count; i++) {
+    delCookie(cq+i);
+  }
+  window.location.reload(true);
+}
+
+function ShowHide(d)
+{
+	if(d.length < 1)
+	{
+		return;
+	}
+	if(document.getElementById(d).style.display == "none")
+		document.getElementById(d).style.display = "inline";
+	else
+		document.getElementById(d).style.display = "none";
+}
+</script>
+
+<table class="box">
+  <tr bgcolor="#0558a5">
+    	<td >
+          	<span class="box_heading">Recent Searches</span>
+    	</td>
+    	<td align=right>
+    		<INPUT type="image" title="Help" alt="Help" src="/ezsearch/images/cb_question_stat_16.gif" onclick="javascript:ShowHide('recentSearchHelp')" >
+    	</td>
+    </tr>
+    <tr>
+    	<td colspan="2">
+  		<table width=100% id="recentSearchHelp" style="display:inline;border-bottom:navy 2px groove;">
+  		<tr>
+  			<td>
+  			    	<span class="help_text">This section maintains a list of recent searches that were performed.  Click on the desired search criteria link to conduct the search. FPDS maintains the list of searches until the clear link is selected.  When you click on <span class="link_text">Clear</span> all searches are removed.</span>
+    			</td>
+    		</tr>
+  		</table>
+    	</td>
+  </tr>
+  <script type="text/javascript">
+    displayRecentQueries();
+  </script>
+  <tr><td align="center">
+    <span class="link_text">[<a href="javascript:clearRecentQueries()" title="Click here to clear history" alt = "Click here to clear history">Clear</a>]</span>
+  </td></tr>
+  </table>
+<br />
+  <script type="text/javascript" language="JavaScript">
+function getHelp(d)
+{
+	var browser=navigator.appName;
+	if (browser == 'Microsoft Internet Explorer')
+	{
+	     parent.location.reload(parent.location.protocol+'//'+parent.location.host+d);
+	}
+	else
+	{
+	    parent.location.replace(parent.location.protocol+'//'+parent.location.host+d);
+	}
+}
+</script>
+
+<table class="box">
+  <tr><td bgcolor="#0558a5">
+      <span class="box_heading">
+         Quick Help
+     </span>
+  </td></tr>
+  <tr><td>
+  <table width=100% border=0 cellpadding=0 cellspacing=0>
+   <tr> <td align=left>
+      <span class="help_text">
+	1. To begin your ezSearch type in one or more keywords that will be searched for in the contracts that you would like to find.<br/><hr/>
+	2. Click on the <b>Go</b> button. A list of contracts will be displayed that matches your search criteria in the Results page section. To remove your search criteria text, click the <b>Clear</b> button.<br/><hr/>
+	3. You can refine your search by using the four filter boxes on the left side of the screen. You can drill down by Department Full Name, Contracting Agency Name, Full Legal Business Name and Treasury Account Symbol. After selecting a value from one of the filter boxes, you can further drill down on other available filters. The information in each filter box is displayed in descending order. Only the top 10 results will be displayed. Click on the appropriate link in each filter box. Your results will be displayed in the Results Page section.<br/><hr/>
+	4. Clicking on the links inside the documents allows you to further refine your search and drill down to specific information. For example by clicking on a specific PSC Code you will only see contracts for that PSC Code. <br/>
+     </span>
+</td> </tr>
+  </table>
+  </td></tr>
+</table>
+<br/></td>
+</tr>
+</table>
+<hr>
+
+<script type="text/javascript" language="JavaScript">
+function getParent(d) 
+{
+       return parent.location.protocol+'//'+parent.location.host+d;
+}
+
+function pingFPDSInstance()
+{
+	var source = "";
+        if(source=="FPDS" || source=="FPDS.GOV" )
+        {
+	   var pingImg=document.getElementById('pingImage');
+	   var pingSrc=getParent('/common/jsp/keepAlive.jsp');
+	   pingImg.src=pingSrc;
+        }
+}
+</script></body></html>
